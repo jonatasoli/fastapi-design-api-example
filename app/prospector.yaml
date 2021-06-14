@@ -1,0 +1,58 @@
+output-format: pylint
+
+strictness: medium
+test-warnings: true
+doc-warnings: false
+
+ignore-paths:
+  - docs
+  - ext
+  - migrations
+  - tests
+  - staticfiles
+  - uploads
+  - contrib
+  - schemas
+  - adapters
+  - scripts
+  - config.py
+  - alembic.ini
+  - __init__.py
+  - conftest.py
+
+ignore-patterns:
+  - (^|/)skip(this)?(/|$)
+pep8:
+  options:
+    max-line-length: 160
+
+pyflakes:
+  run: true
+
+pylint:
+  run: true
+  disable:
+    - E1136
+
+dodgy:
+  run: true
+
+mccabe:
+  run: true
+
+pyroma:
+  run: true
+
+vulture:
+  run: false
+
+frosted:
+  run: false
+
+mypy:
+  options:
+    ignore-missing-import: true
+  run: false
+
+bandit:
+  run: trug

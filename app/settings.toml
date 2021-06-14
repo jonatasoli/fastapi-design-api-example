@@ -1,0 +1,17 @@
+[default]
+APP_NAME="Microservice Order Service"
+DEFAULT_TIMEZONE="America/Sao_Paulo"
+
+[development]
+LOG_LEVEL="DEBUG"
+LOG_BACKTRACE=true
+DIAGNOSE=true
+MAIN_SESSION="main-session"
+DB_DSN_MAIN = "postgresql+asyncpg://myuser:mypass@database:5432/orderdb"
+
+[testing]
+LOG_LEVEL="DEBUG"
+LOG_BACKTRACE=true
+DIAGNOSE=true
+MAIN_SESSION="main-session"
+DB_DSN_MAIN = "postgresql+asyncpg://myuser:mypass@database:5432/orderdb"
