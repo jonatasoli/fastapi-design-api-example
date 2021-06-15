@@ -2,7 +2,7 @@ from config import settings
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
-from order.api.endpoints import order_router
+from order.entrypoints.endpoints import order_router
 
 
 order = FastAPI(
