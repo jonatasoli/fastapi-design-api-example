@@ -8,7 +8,7 @@ def create_app():
     try:
         init_log()
         app = FastAPI()
-        app.mount("/", order)
+        app.mount("/api", order)
         return app
     except Exception as e:
         raise e

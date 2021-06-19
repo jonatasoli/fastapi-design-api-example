@@ -2,8 +2,8 @@ from fastapi import status
 
 
 class Order:
-    async def create(data):
-        ...
+    async def create(self,data):
+        raise Exception(f"{data}")
 
     async def update_status_waiting_payment(id):
         ...

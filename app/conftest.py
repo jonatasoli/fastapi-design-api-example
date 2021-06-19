@@ -8,7 +8,6 @@ from fastapi.testclient import TestClient
 
 from config import settings
 from main import create_app as app
-
 root_dir = d(abspath(__file__))
 sys.path.append(root_dir)
 
@@ -22,3 +21,4 @@ def set_test_settings():
 def client():
     with TestClient(app()) as client:
         yield client
+
