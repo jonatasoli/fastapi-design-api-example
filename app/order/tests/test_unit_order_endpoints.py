@@ -8,20 +8,21 @@ from order.domains.order import orderBase, orderCreateResponse,\
 
 HEADERS = {"Content-Type": "application/json"}
 
-response_message = orderCreateResponse(
-    id=1,
-    product_name="Latte",
-    payment_status="Paid",
-    total_amount=1000,
-)
 
+def override_order():
+    return orderCreateResponse(
+        id=1,
+        product_name="Latte",
+        payment_status="Paid",
+        total_amount=1000,
+)
 
 def test_create_order(client, mocker):
     """Must return 201"""
-    mocker.patch(
-        "order.domains.model.Order.create",
-        return_value=response_message
-    )
+    # mocker.patch(
+    #     "order.domains.model.Order.create",
+    #     return_value=response_message
+    # )
     data = orderBase(product_name="Latte", payment_status="Created", total_amount=1000)
     response = client.post("/orders", headers=HEADERS, json=data.dict())
     assert response.status_code == status.HTTP_201_CREATED

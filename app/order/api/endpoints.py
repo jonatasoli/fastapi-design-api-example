@@ -3,7 +3,7 @@ from loguru import logger
 
 from order.domains.order import orderBase, orderCreateResponse,\
     orderGetResponse, orderUpdateResponse
-from order.domains.model import Order, Payment, Receipt
+from order.service.business_rules import Order, Payment, Receipt
 
 order_router = APIRouter()
 

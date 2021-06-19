@@ -20,3 +20,39 @@
 
 |-|GET|/order/42|Retorna a ultima representacao do pedido.|200|-|Depende do status|
 
+
+## Como instalar
+
+```
+poetry install
+```
+
+## Entrar na env
+```
+poetry shell
+```
+
+## Executar o projeto
+```
+uvicorn --factory main:create_app --host 0.0.0.0 --port 8888 --reload
+```
+
+## Rodar os testes
+```
+cd app
+pytest -s
+```
+
+## Estrutura
+
+### APP
+* ext -> estruturas genericas que serao usadas pelos adapters
+* migrations -> migracoes
+* order -> app com o domain
+
+### Order
+* adapters -> camadas externas ao framework e negocio
+* domains -> Objetos de negocio
+* service -> Regras de negocio
+* API -> endpoints
+* Locust -> teste de carga

@@ -20,6 +20,5 @@ def set_test_settings():
 
 @pytest.fixture
 def client():
-
     with TestClient(app()) as client:
         yield client
