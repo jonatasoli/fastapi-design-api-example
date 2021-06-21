@@ -2,24 +2,24 @@ from fastapi import status
 
 
 class Order:
-    async def create(self,data):
+    async def create(self, data):
         raise Exception(f"{data}")
 
-    async def update_status_waiting_payment(id):
+    async def update_status_waiting_payment(self, id):
         ...
 
-    async def cancel(id):
+    async def cancel(self, id):
         ...
 
-    async def status(id):
+    async def status(self, id):
         ...
 
 
 class Payment:
-    async def process(id):
+    async def process(self, id):
         ...
 
 
 class Receipt:
-    async def delivery(id):
+    async def delivery(self, id):
         ...
