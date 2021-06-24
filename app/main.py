@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from order import order
-from ext.factory_logging import init_log
+from ext.logging.factory_logging import init_log
 
 
 def create_app():

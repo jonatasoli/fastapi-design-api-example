@@ -23,10 +23,12 @@ async def create_order(
     try:
         return await order.create(data)
     except Exception as e:
-        logger.error(f"Error return endpoint {e.detail}")
+        logger.error(f"Error return endpoint {e}")
+        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Error to proccess this request.\n{e.detail}"
+            status_code=status,
+            detail=detail
         )
 
 
@@ -46,9 +48,11 @@ async def update_status_waiting_payment(
         return await order.update_status_waiting_payment(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
+        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Error to proccess this request.\n{e}"
+            status_code=status,
+            detail=detail
         )
 
 
@@ -67,9 +71,11 @@ async def cancel_order(
         await order.cancel(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
+        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Error to proccess this request.\n{e}"
+            status_code=status,
+            detail=detail
         )
 
 
@@ -89,9 +95,11 @@ async def order_status(
         return await order.status(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
+        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Error to proccess this request.\n{e}"
+            status_code=status,
+            detail=detail
         )
 
 
@@ -110,9 +118,11 @@ async def process_payment(
         await payment.process(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
+        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Error to proccess this request.\n{e}"
+            status_code=status,
+            detail=detail
         )
 
 
@@ -132,7 +142,9 @@ async def receive_delivery(
         return await receipt.delivery(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e.detail}")
+        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Error to proccess this request.\n{e.detail}"
+            status_code=status,
+            detail=detail
         )
