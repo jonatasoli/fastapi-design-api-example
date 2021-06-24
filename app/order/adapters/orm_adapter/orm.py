@@ -1,7 +1,7 @@
-from .base import CRUDBase
+from ext.orm.orm_base import CRUDBase
 
-from ext.database import get_session
-from order.schemas.schemas_order import (
+from ext.db.database import get_session
+from order.domains.order import (
     orderCreateResponse,
     orderUpdateResponse,
     orderGetResponse,

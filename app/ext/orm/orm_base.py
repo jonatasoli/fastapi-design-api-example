@@ -7,7 +7,7 @@ from pydantic import BaseModel, parse_obj_as
 from sqlalchemy.exc import DataError, DatabaseError, DisconnectionError, IntegrityError
 from sqlalchemy.sql.expression import select, text
 
-from ext.base_class import BaseModel
+from ext.db.base_class import BaseModel
 
 ModelType = TypeVar("ModelType", bound=BaseModel)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)

@@ -1,9 +1,11 @@
 from fastapi import status
 
+from order.adapters.orm_adapter import ordermodel
+
 
 class Order:
     async def create(self, data):
-        raise Exception(f"{data}")
+        return await ordermodel.create(obj_in=data)
 
     async def update_status_waiting_payment(self, id):
         ...

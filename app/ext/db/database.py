@@ -1,4 +1,4 @@
-from order.models.models_order import Order
+from order.adapters.models_order import Order
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine
