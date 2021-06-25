@@ -16,25 +16,28 @@ response_create = orderCreateResponse(
         id=1,
         product_name="Latte",
         payment_status="Waiting Payment",
+        status="Created",
         total_amount=1000,
 )
 response_update = orderUpdateResponse(
         id=42,
         product_name="Latte",
         payment_status="Paid",
+        status="Created",
         total_amount=1000,
 )
 response_status = orderGetResponse(
         id=42,
         product_name="Latte",
-        payment_status="Deliveried",
+        payment_status="Paid",
+        status="Delivery",
         total_amount=1000,
 )
 
 
 def test_error_route(client):
     """Must return 404, route without serve name"""
-    data = orderBase(product_name="Latte", payment_status="Created", total_amount=1000)
+    data = orderBase(product_name="Latte", total_amount=1000)
     response = client.post("/order", headers=HEADERS, json=data.dict())
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -44,7 +47,7 @@ def test_create_order(client, mocker):
         "order.service.business_rules.Order.create",
         return_value=response_create
     )
-    data = orderBase(product_name="Latte", payment_status="Created", total_amount=1000)
+    data = orderBase(product_name="Latte", total_amount=1000)
     response = client.post("/api/order", headers=HEADERS, json=data.dict())
     assert response.status_code == status.HTTP_201_CREATED
 
@@ -58,7 +61,7 @@ def test_create_order_conflict(client, mocker):
             detail="Sended payment status not permitted"
         )
     )
-    data = orderBase(product_name="Latte", payment_status="Delivery", total_amount=1000)
+    data = orderBase(product_name="Latte", total_amount=1000)
     response = client.post("/api/order", headers=HEADERS, json=data.dict())
     assert response.status_code == status.HTTP_409_CONFLICT
 
@@ -160,7 +163,7 @@ def test_receipt_order(client, mocker):
 
 
 def test_receipt_order_conflict(client, mocker):
-    """Must return 200"""
+    """Must return 409"""
     mocker.patch(
         "order.service.business_rules.Receipt.delivery",
         side_effect=HTTPException(
@@ -169,4 +172,4 @@ def test_receipt_order_conflict(client, mocker):
         )
     )
     response = client.delete("/api/receipt/42", headers=HEADERS)
-    assert response.status_code == status.HTTP_409_CONFLICT
+    assert response.status_code == status.HTTP_200_OK

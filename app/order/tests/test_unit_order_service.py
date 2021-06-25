@@ -8,12 +8,12 @@ from order.service.business_rules import Order, Payment, Receipt
 
 base_data = orderBase(
         product_name="Latte",
-        payment_status="Created",
         total_amount=1000,
 )
 get_response_update = orderGetResponse(
         id=1,
         product_name="Latte",
+        status="Waiting",
         payment_status="Waiting Payment",
         total_amount=1000,
 )
@@ -21,6 +21,7 @@ get_response_update = orderGetResponse(
 get_response_conflict = orderGetResponse(
         id=1,
         product_name="Latte",
+        status="Doing",
         payment_status="Paid",
         total_amount=1000,
 )
@@ -28,19 +29,22 @@ get_response_conflict = orderGetResponse(
 response_create = orderCreateResponse(
         id=1,
         product_name="Latte",
+        status="Create",
         payment_status="Waiting Payment",
         total_amount=1000,
 )
 response_update = orderUpdateResponse(
         id=42,
         product_name="Latte",
+        status="Create",
         payment_status="Paid",
         total_amount=1000,
 )
 response_status = orderGetResponse(
         id=42,
         product_name="Latte",
-        payment_status="Deliveried",
+        status="Delivery",
+        payment_status="Paid",
         total_amount=1000,
 )
 
