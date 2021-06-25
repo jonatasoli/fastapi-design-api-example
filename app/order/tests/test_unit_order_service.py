@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 
 from order.service.business_rules import Order
 from order.domains.order import orderCreateResponse, orderUpdateResponse, orderGetResponse, orderBase
-from order.service.business_rules import Order, Payment, Receipt
+from order.service.business_rules import Order, Payment, Receipt, OrderStatus, PaymentStatus
 
 
 base_data = orderBase(
@@ -13,38 +13,38 @@ base_data = orderBase(
 get_response_update = orderGetResponse(
         id=1,
         product_name="Latte",
-        status="Waiting",
-        payment_status="Waiting Payment",
+        status=OrderStatus.WAITING.value,
+        payment_status=PaymentStatus.WAITING.value,
         total_amount=1000,
 )
 
 get_response_conflict = orderGetResponse(
         id=1,
         product_name="Latte",
-        status="Doing",
-        payment_status="Paid",
+        status=OrderStatus.DOING.value,
+        payment_status=PaymentStatus.PAID.value,
         total_amount=1000,
 )
 
 response_create = orderCreateResponse(
         id=1,
         product_name="Latte",
-        status="Create",
-        payment_status="Waiting Payment",
+        status=OrderStatus.WAITING.value,
+        payment_status=PaymentStatus.WAITING.value,
         total_amount=1000,
 )
 response_update = orderUpdateResponse(
         id=42,
         product_name="Latte",
-        status="Create",
-        payment_status="Paid",
+        status=OrderStatus.WAITING.value,
+        payment_status=PaymentStatus.PAID.value,
         total_amount=1000,
 )
 response_status = orderGetResponse(
         id=42,
         product_name="Latte",
-        status="Delivery",
-        payment_status="Paid",
+        status=OrderStatus.DELIVERY.value,
+        payment_status=PaymentStatus.PAID.value,
         total_amount=1000,
 )
 
@@ -71,7 +71,7 @@ async def test_update_payment_status_conflict(mocker):
     )
     order = Order()
     with pytest.raises(HTTPException) as exc_info:
-        await order.update_status_waiting_payment(id=1)
+        await order.update(id=1)
     assert exc_info.value.status_code == status.HTTP_409_CONFLICT
 
 
@@ -86,5 +86,5 @@ async def test_update_payment_status(mocker):
         return_value=get_response_update
     )
     order = Order()
-    output = await order.update_status_waiting_payment(id=1)
+    output = await order.update(id=1)
     assert output == response_update

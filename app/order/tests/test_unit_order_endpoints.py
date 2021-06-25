@@ -76,7 +76,7 @@ def test_error_data_order(client):
 def test_update_order_status(client, mocker):
     """Must return 200"""
     mocker.patch(
-        "order.service.business_rules.Order.update_status_waiting_payment",
+        "order.service.business_rules.Order.update",
         return_value=response_update
     )
     response = client.put("/api/order/42", headers=HEADERS, )
@@ -86,7 +86,7 @@ def test_update_order_status(client, mocker):
 def test_update_order_status_conflict(client, mocker):
     """Must return 409"""
     mocker.patch(
-        "order.service.business_rules.Order.update_status_waiting_payment",
+        "order.service.business_rules.Order.update",
         side_effect=HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Sended payment status not permitted"
@@ -172,4 +172,4 @@ def test_receipt_order_conflict(client, mocker):
         )
     )
     response = client.delete("/api/receipt/42", headers=HEADERS)
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_409_CONFLICT

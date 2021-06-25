@@ -37,7 +37,7 @@ async def create_order(
     response_model=orderUpdateResponse,
     status_code=status.HTTP_200_OK
 )
-async def update_status_waiting_payment(
+async def update_status(
     _id: int,
     order: Order = Depends()
 ):
@@ -45,7 +45,7 @@ async def update_status_waiting_payment(
     Must update order if current status is "Waiting Payment"
     """
     try:
-        return await order.update_status_waiting_payment(_id)
+        return await order.update(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
         status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
