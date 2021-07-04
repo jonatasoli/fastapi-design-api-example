@@ -3,7 +3,7 @@ from os.path import abspath
 from os.path import dirname as d
 
 import pytest
-from alembic.config import main
+import alembic.config
 from fastapi.testclient import TestClient
 
 from config import settings
@@ -16,6 +16,11 @@ sys.path.append(root_dir)
 def set_test_settings():
     settings.configure(FORCE_ENV_FOR_DYNACONF="testing")
 
+
+# @pytest.fixture(scope="session", autouse=True)
+# def apply_migrations() -> None:
+#     alembic.config.main(argv=["upgrade", "head"])
+#     alembic.config.main(argv=["downgrade", "base"])
 
 @pytest.fixture
 def client():

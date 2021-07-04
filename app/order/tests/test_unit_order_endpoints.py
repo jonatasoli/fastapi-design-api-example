@@ -7,7 +7,7 @@ import pytest
 from order.api.endpoints import create_order
 from order.service.business_rules import Order
 from order.domains.order import orderBase, orderCreateResponse,\
-    orderGetResponse, orderUpdateResponse
+    orderGetResponse,orderUpdate, orderUpdateResponse
 
 HEADERS = {"Content-Type": "application/json"}
 
@@ -15,21 +15,18 @@ HEADERS = {"Content-Type": "application/json"}
 response_create = orderCreateResponse(
         id=1,
         product_name="Latte",
-        payment_status="Waiting Payment",
-        status="Created",
+        status="WAITING PAYMENT",
         total_amount=1000,
 )
 response_update = orderUpdateResponse(
         id=42,
         product_name="Latte",
-        payment_status="Paid",
-        status="Created",
+        status="WAITING PAYMENT",
         total_amount=1000,
 )
 response_status = orderGetResponse(
         id=42,
         product_name="Latte",
-        payment_status="Paid",
         status="Delivery",
         total_amount=1000,
 )
@@ -79,7 +76,8 @@ def test_update_order_status(client, mocker):
         "order.service.business_rules.Order.update",
         return_value=response_update
     )
-    response = client.put("/api/order/42", headers=HEADERS, )
+    _data = orderUpdate(product_name="Mocca", total_amount=500)
+    response = client.put("/api/order/42", json=_data.dict(), headers=HEADERS, )
     assert response.status_code == status.HTTP_200_OK
 
 
@@ -92,7 +90,8 @@ def test_update_order_status_conflict(client, mocker):
             detail="Sended payment status not permitted"
         )
     )
-    response = client.put("/api/order/42", headers=HEADERS, )
+    _data = orderUpdate(product_name="Mocca", total_amount=500)
+    response = client.put("/api/order/42",json=_data.dict(), headers=HEADERS, )
     assert response.status_code == status.HTTP_409_CONFLICT
 
 

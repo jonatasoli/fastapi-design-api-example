@@ -15,10 +15,10 @@ sys.path.insert(0, str(folder))
 
 from config import settings
 
-from ext.base_class import BaseModel
+from ext.db.base_class import BaseModel
 
 # WE MUST IMPORT ALL MODELS FOR MIGRATION HERE
-from order.models import *
+from order.adapters import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -71,7 +71,10 @@ def run_migrations_offline():
 
 
 def do_run_migrations(connection):
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata
+    )
 
     with context.begin_transaction():
         context.run_migrations()

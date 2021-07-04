@@ -20,6 +20,7 @@ requests = "*"
 pep8 = "*"
 locust = "^1.4.3"
 httpx = "^0.18.1"
+pydantic-jsonapi = "^0.11.0"
 
 [tool.poetry.dev-dependencies]
 jedi = "*"

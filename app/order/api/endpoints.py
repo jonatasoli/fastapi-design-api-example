@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, Depends, HTTPException
 from loguru import logger
 
 from order.domains.order import orderBase, orderCreateResponse,\
-    orderGetResponse, orderUpdateResponse
+    orderGetResponse, orderUpdate, orderUpdateResponse
 from order.service.business_rules import Order, Payment, Receipt
 
 order_router = APIRouter()
@@ -24,10 +24,10 @@ async def create_order(
         return await order.create(data)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
-        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        _status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
         detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status,
+            status_code=_status,
             detail=detail
         )
 
@@ -39,19 +39,20 @@ async def create_order(
 )
 async def update_status(
     _id: int,
+    data: orderUpdate,
     order: Order = Depends()
 ):
     """
     Must update order if current status is "Waiting Payment"
     """
     try:
-        return await order.update(_id)
+        return await order.update(_id, data)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
-        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        _status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
         detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status,
+            status_code=_status,
             detail=detail
         )
 
@@ -71,10 +72,10 @@ async def cancel_order(
         await order.cancel(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
-        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        _status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
         detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status,
+            status_code=_status,
             detail=detail
         )
 
@@ -92,13 +93,17 @@ async def order_status(
     Get order current status
     """
     try:
-        return await order.status(_id)
+        _order = await order.status(_id)
+        if not _order:
+            raise ValueError("Order not exist")
+        return _order
+
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
-        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        _status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
         detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status,
+            status_code=_status,
             detail=detail
         )
 
@@ -118,10 +123,10 @@ async def process_payment(
         await payment.process(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e}")
-        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        _status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
         detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status,
+            status_code=_status,
             detail=detail
         )
 
@@ -142,9 +147,9 @@ async def receive_delivery(
         return await receipt.delivery(_id)
     except Exception as e:
         logger.error(f"Error return endpoint {e.detail}")
-        status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
+        _status = e.status_code if hasattr(e, "status_code") else status.HTTP_404_NOT_FOUND
         detail = e.detail if hasattr(e, "detail") else f"Error to proccess this request.\n{e}"
         raise HTTPException(
-            status_code=status,
+            status_code=_status,
             detail=detail
         )

@@ -922,6 +922,18 @@ dotenv = ["python-dotenv (>=0.10.4)"]
 email = ["email-validator (>=1.0.3)"]
 
 [[package]]
+name = "pydantic-jsonapi"
+version = "0.11.0"
+description = "an implementation of JSON:api using pydantic"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+pydantic = ">=0.32.2"
+typing-extensions = ">=3.7.4"
+
+[[package]]
 name = "pydocstyle"
 version = "6.1.1"
 description = "Python docstring style checker"
@@ -1501,7 +1513,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.9"
-content-hash = "b75c51a1210622bee7062b9d78c2f1afa8951d8b3b49c9b52ad42e6ca6a6faf7"
+content-hash = "c4cd4e7155bbb58ec0a028e901679b1ce140df6f7ad78cf9945e799160b3503a"
 
 [metadata.files]
 alembic = [
@@ -2213,6 +2225,9 @@ pydantic = [
     {file = "pydantic-1.8.2-cp39-cp39-win_amd64.whl", hash = "sha256:4be75bebf676a5f0f87937c6ddb061fa39cbea067240d98e298508c1bda6f3f3"},
     {file = "pydantic-1.8.2-py3-none-any.whl", hash = "sha256:fec866a0b59f372b7e776f2d7308511784dace622e0992a0b59ea3ccee0ae833"},
     {file = "pydantic-1.8.2.tar.gz", hash = "sha256:26464e57ccaafe72b7ad156fdaa4e9b9ef051f69e175dbbb463283000c05ab7b"},
+]
+pydantic-jsonapi = [
+    {file = "pydantic_jsonapi-0.11.0.tar.gz", hash = "sha256:c0c72d7543017121e49a41ee7e36224ba1cc3627be5efac048e3b81425e623a8"},
 ]
 pydocstyle = [
     {file = "pydocstyle-6.1.1-py3-none-any.whl", hash = "sha256:6987826d6775056839940041beef5c08cc7e3d71d63149b48e36727f70144dc4"},
