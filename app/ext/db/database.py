@@ -1,4 +1,4 @@
-from order.adapters.models_order import Order
+# from order.adapters.models_order import Order
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -8,7 +8,7 @@ from config import settings
 
 def get_session():
     DBSession = sessionmaker(expire_on_commit=False, class_=AsyncSession)
-    DBSession.configure(binds={Order: get_engine_main()})
+    # DBSession.configure(binds={Order: get_engine_main()})
     return DBSession()
 
 

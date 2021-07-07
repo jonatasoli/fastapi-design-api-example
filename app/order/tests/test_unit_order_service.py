@@ -87,3 +87,10 @@ async def test_update_payment_status(mocker):
     order = Order()
     output = await order.update(id=1, data=order_update)
     assert output == response_update
+
+
+@pytest.mark.asyncio
+async def test_database(apply_migrations):
+    dir(apply_migrations)
+    assert True == True
+    ...
